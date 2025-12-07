@@ -161,7 +161,7 @@ body.nav-in .header-nav {
   text-align: center;
 }
 
-/* Name: fixed, moves from centre to header */
+/* Name: fixed, moves from centre to header 
 .landing-name {
   position: fixed;
   left: 50%;
@@ -181,7 +181,7 @@ body.nav-in .header-nav {
     color 0.8s ease,
     opacity 0.8s ease,
     font-weight 0.8s ease;
-}
+}*/
 
 .landing-name .landing-word {
   display: inline-block; /* keeps it on one line for desktop */
@@ -218,11 +218,28 @@ body.name-lock .landing-name {
   letter-spacing: 0.24em;
 }
 
-/* MOBILE: move ESTRANGE STUDIO down below the nav line */
+/* Mobile: keep ESTRANGE STUDIO static under the nav */
 @media (max-width: 768px) {
-  body.name-lock .landing-name {
-    top: 72px;              /* adjust to taste (64–80px range works well) */
+  .landing-name {
+    /* Put it under the header/nav line */
+    top: 4.5rem !important;
     transform: translate(-50%, 0);
+
+    /* Use the “locked” size straight away */
+    font-size: 1rem;
+    letter-spacing: 0.24em;
+
+    /* Kill the long desktop animation on mobile */
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  body.name-lock .landing-name {
+    /* Same position as initial → no movement */
+    top: 4.5rem;
+    transform: translate(-50%, 0);
+    font-size: 1rem;
+    letter-spacing: 0.24em;
   }
 }
 
@@ -257,18 +274,6 @@ body.landing-out .landing {
   opacity: 0;
   pointer-events: none;
 }
-
-/* ============================
-   MOBILE: LANDING TITLE POSITION
-   ============================ */
-@media (max-width: 768px) {
-  /* When the title "locks", keep it under the nav line */
-  body.name-lock .landing-name {
-    top: 72px; /* tweak between 64–80px if you want */
-    transform: translate(-50%, 0);
-  }
-}
-
 
 /* MAIN CONTENT */
 
@@ -826,6 +831,149 @@ footer {
   line-height: 1.7;
   opacity: 0.9;
 }
+/* =======================
+   MOBILE: HERO + TITLE + THEME
+   ======================= */
+@media (max-width: 768px) {
+  /* 1) HERO BACKGROUND
+        - Mobile image
+        - Fade in instead of slide
+  -------------------------------------------------- */
+  .hero-bg {
+    background-image: url("assets/hero-image-mobile.jpg");
+    transform: none; /* no slide up on mobile */
+    opacity: 0;
+    transition: opacity 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  body.bg-in .hero-bg {
+    opacity: 1;
+  }
+
+  /* 2) HEADER STACKING ON OTHER PAGES
+        (images / studio / stories)
+  -------------------------------------------------- */
+  .site-header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding: 1rem 4vw;
+  }
+
+  .images-header,
+  .studio-header {
+    align-items: center;
+  }
+
+  .simple-logo {
+    order: 2; /* logo below */
+  }
+
+  .header-nav-static {
+    order: 1; /* nav above */
+  }
+
+  /* 3) LANDING TITLE ON MOBILE
+        - No movement, just fade in
+        - One line, not bold
+        - Sits in final header position
+  -------------------------------------------------- */
+  .home-page .landing-name {
+    position: fixed;
+    top: 32px;                /* final header position */
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    font-size: 1.1rem;        /* fits mobile nicely */
+    font-weight: 300;         /* not bold */
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+    white-space: nowrap;      /* always one line */
+    color: #e6e6e6;           /* light for dark hero */
+
+    opacity: 0;               /* start invisible */
+    transition: opacity 1.2s ease;
+  }
+
+  /* Support old HTML with spans (if present) */
+  .home-page .landing-name .landing-word {
+    display: inline;
+  }
+
+
+  /* Ignore any old name-lock movement on mobile */
+  .home-page.name-lock .landing-name {
+    top: 32px;
+    transform: translate(-50%, 0);
+  }
+
+  /* 4) MOBILE: LIGHT COLOUR THEME FOR HOME PAGE TEXT
+  -------------------------------------------------- */
+  .home-page h1,
+  .home-page h2,
+  .home-page h3,
+  .home-page h4,
+  .home-page h5,
+  .home-page h6,
+  .home-page p,
+  .home-page span,
+  .home-page a,
+  .home-page li,
+  .home-page .menu-text,
+  .home-page .header-nav,
+  .home-page .header-nav-static {
+    color: #e6e6e6 !important;
+  }
+
+  /* Clock */
+  .home-page #roman-clock,
+  .home-page .roman-clock {
+    color: #e6e6e6 !important;
+    opacity: 0.9;
+  }
+
+  /* Icons / SVG */
+  .home-page svg,
+  .home-page svg * {
+    stroke: #e6e6e6 !important;
+    fill: #e6e6e6 !important;
+  }
+
+  /* Make any accidental nav line backgrounds transparent
+     so we don't see weird light blocks
+  -------------------------------------------------- */
+  .header-nav,
+  .header-nav-static,
+  .header-nav::before,
+  .header-nav-static::before {
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+
+  .menu-text {
+    color: #e6e6e6 !important;
+  }
+
+  .home-page .subtle-text {
+    color: rgba(230, 230, 230, 0.85) !important;
+  }
+}
+
+
+/* HOME PAGE: pin nav to the right edge (desktop + mobile) */
+.home-page .header-nav {
+  position: absolute;
+  top: 1.5rem;
+  right: 3vw;          /* matches the left offset used by the clock */
+}
+
+/* keep the header itself free so the clock can sit at the left */
+.home-page .site-header {
+  justify-content: flex-start;
+}
 
 .studio-section-content p + p {
   margin-top: 0.9rem;
@@ -931,12 +1079,16 @@ footer {
 }
 
 /* =======================
-   MOBILE: HERO BG FADES IN
+   MOBILE: HERO + TITLE + THEME
    ======================= */
 @media (max-width: 768px) {
+  /* 1) HERO BACKGROUND
+        - Mobile image
+        - Fade in instead of slide
+  -------------------------------------------------- */
   .hero-bg {
-    /* Don't slide from below on mobile */
-    transform: none;
+    background-image: url("assets/hero-image-mobile.jpg");
+    transform: none; /* no slide up on mobile */
     opacity: 0;
     transition: opacity 1.4s cubic-bezier(0.23, 1, 0.32, 1);
   }
@@ -944,12 +1096,10 @@ footer {
   body.bg-in .hero-bg {
     opacity: 1;
   }
-}
 
-/* =====================================
-   MOBILE: HEADER STACKING (OTHER PAGES)
-   ===================================== */
-@media (max-width: 768px) {
+  /* 2) HEADER STACKING ON OTHER PAGES
+        (images / studio / stories)
+  -------------------------------------------------- */
   .site-header {
     flex-direction: column;
     align-items: center;
@@ -958,7 +1108,6 @@ footer {
     padding: 1rem 4vw;
   }
 
-  /* On images / stories / studio: nav line above, logo below */
   .images-header,
   .studio-header {
     align-items: center;
@@ -971,122 +1120,50 @@ footer {
   .header-nav-static {
     order: 1; /* nav above */
   }
-}
 
-/* HOME PAGE: pin nav to the right edge */
-.home-page .header-nav {
-  position: absolute;
-  top: 1.5rem;
-  right: 3vw;          /* matches the left offset used by the clock */
-}
-
-/* keep the header itself free so the clock can sit at the left */
-.home-page .site-header {
-  justify-content: flex-start;  /* flex no longer matters much once nav is absolute */
-}
-
-/* =========================================
-   MOBILE: LANDING TITLE BEHAVIOUR
-   ========================================= */
-@media (max-width: 768px) {
-  /* Start: big, bold, two lines, centred */
-  .landing-name {
-    font-size: clamp(2.2rem, 10vw, 3.2rem);
-    font-weight: 800;          /* bold */
-    letter-spacing: 0.14em;    /* a bit tighter so it reads well */
-    white-space: normal;       /* allow wrapping */
-    text-align: center;
-    line-height: 1.05;
-  }
-
-  /* Force ESTRANGE / STUDIO onto two lines only on mobile */
-  .landing-name .landing-word {
-    display: block;
-  }
-
-  /* When it moves up into the header */
-  body.name-lock .landing-name {
-    top: 72px;                 /* under the nav line on mobile */
+  /* 3) LANDING TITLE ON MOBILE
+        - No movement, just fade in
+        - One line, not bold
+        - Sits in final header position
+  -------------------------------------------------- */
+  .home-page .landing-name {
+    position: fixed;
+    top: 32px;                /* final header position */
+    left: 50%;
     transform: translate(-50%, 0);
-    font-size: 1.1rem;         /* smaller */
-    font-weight: 400;          /* lighter weight */
-    letter-spacing: 0.24em;    /* more refined, like your nav */
-    opacity: 0.8;              /* feels "lighter" visually */
-  }
-}
 
-/* =========================================
-   MOBILE: HERO + TITLE BEHAVIOUR
-   ========================================= */
-@media (max-width: 768px) {
+    font-size: 1.1rem;        /* fits mobile nicely */
+    font-weight: 300;         /* not bold */
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+    white-space: nowrap;      /* always one line */
+    color: #e6e6e6;           /* light for dark hero */
 
-  /* 1. Use a different hero image + fade instead of slide */
-  .hero-bg {
-    background-image: url("assets/hero-image-mobile.jpg");
-    transform: none; /* no slide up */
-    opacity: 0;
-    transition: opacity 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0;               /* start invisible */
+    transition: opacity 1.2s ease;
   }
 
-  body.bg-in .hero-bg {
+  /* Support old HTML with spans (if present) */
+  .home-page .landing-name .landing-word {
+    display: inline;
+  }
+
+  /* When the site is ready (same timing as hero),
+     fade the title in – no sliding */
+  body.main-ready .home-page .landing-name {
     opacity: 1;
   }
 
-  /* 2. START STATE: big, bold, centred on two lines */
-  .landing-name {
-    font-size: clamp(2.2rem, 10vw, 3.2rem);
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    white-space: normal;        /* allow wrapping */
-    text-align: center;
-    line-height: 1.05;
+  /* Ignore any old name-lock movement on mobile */
+  .home-page.name-lock .landing-name {
+    top: 32px;
+    transform: translate(-50%, 0);
   }
 
-  /* Force:
-     Estrange
-     Studio
-  */
-  .landing-name .landing-word {
-    display: block;
-  }
-
-  /* 3. FINAL STATE (when it moves up under the nav):
-        - smaller
-        - lighter
-        - lined up and stable while it moves
-  */
-  body.name-lock .landing-name {
-    top: 72px;                  /* sits under nav bar */
-    left: 50%;
-    transform: translate(-50%, 0);  /* keeps it perfectly centred as it moves */
-    font-size: 1.1rem;
-    font-weight: 400;
-    letter-spacing: 0.24em;
-    opacity: 0.8;
-    white-space: nowrap;        /* now it becomes one clean line */
-  }
-
-  body.name-lock .landing-name .landing-word {
-    display: inline;            /* "Estrange Studio" on one line in the header */
-
-  }
-
-  /* LIGHT GREY TITLE FOR MOBILE (both states) */
-  .landing-name {
-    color: #e6e6e6;    /* very light grey, high contrast */
-  }
-
-  body.name-lock .landing-name {
-    color: #d0d0d0;    /* slightly dimmer when it becomes small */
-  }
-}
-
-/* =======================================================
-   MOBILE: GLOBAL LIGHT COLOR THEME FOR HOME PAGE
-   ======================================================= */
-@media (max-width: 768px) {
-
-  /* Make ALL text light */
+  /* 4) MOBILE: LIGHT COLOUR THEME FOR HOME PAGE TEXT
+  -------------------------------------------------- */
   .home-page h1,
   .home-page h2,
   .home-page h3,
@@ -1103,24 +1180,24 @@ footer {
     color: #e6e6e6 !important;
   }
 
-  /* Make clock text light grey on mobile */
+  /* Clock */
   .home-page #roman-clock,
   .home-page .roman-clock {
-    color: #e6e6e6 !important;   /* or #ffffff if you want pure white */
-    opacity: 0.9;                /* a bit stronger than the desktop 0.75 */
+    color: #e6e6e6 !important;
+    opacity: 0.9;
   }
-  
-  /* Icons */
+
+  /* Icons / SVG */
   .home-page svg,
   .home-page svg * {
     stroke: #e6e6e6 !important;
     fill: #e6e6e6 !important;
   }
 
-  
-
-  /* Ensure the navigation line / menu line also lightens */
-  .header-nav, 
+  /* Make any accidental nav line backgrounds transparent
+     so we don't see weird light blocks
+  -------------------------------------------------- */
+  .header-nav,
   .header-nav-static,
   .header-nav::before,
   .header-nav-static::before {
@@ -1128,13 +1205,34 @@ footer {
     border-color: transparent !important;
   }
 
-  /* Light colour for menu text when dot transforms */
   .menu-text {
     color: #e6e6e6 !important;
   }
 
-  /* Optional: slight transparency for elegance */
   .home-page .subtle-text {
     color: rgba(230, 230, 230, 0.85) !important;
   }
 }
+
+
+/* HOME PAGE: pin nav to the right edge (desktop + mobile) */
+.home-page .header-nav {
+  position: absolute;
+  top: 1.5rem;
+  right: 3vw;          /* matches the left offset used by the clock */
+}
+
+/* keep the header itself free so the clock can sit at the left */
+.home-page .site-header {
+  justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+  .home-page .work-button,
+  .home-page .work-button *,
+  .home-page .work-with-us,
+  .home-page .work-with-us * {
+    color: #ffffff !important;
+  }
+}
+
