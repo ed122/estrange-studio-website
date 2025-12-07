@@ -161,7 +161,7 @@ body.nav-in .header-nav {
   text-align: center;
 }
 
-/* Name: fixed, moves from centre to header 
+/* Name: fixed, moves from centre to header */
 .landing-name {
   position: fixed;
   left: 50%;
@@ -181,7 +181,7 @@ body.nav-in .header-nav {
     color 0.8s ease,
     opacity 0.8s ease,
     font-weight 0.8s ease;
-}*/
+}
 
 .landing-name .landing-word {
   display: inline-block; /* keeps it on one line for desktop */
